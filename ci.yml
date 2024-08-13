@@ -1,12 +1,12 @@
 Global:
-    tool: build_submitter
+  tool: build_submitter
 
 Default:
-    profile: [change]
+  profile: [change]
 
 Profiles:
-    - profile:
-      name: change
-      env: cmc_standard
-      command: sh build.sh
-      release: true
+  - profile:
+    name: change
+    env: DECK_CENTOS7U5_K3 
+    command: sh build.sh
+    release: true
