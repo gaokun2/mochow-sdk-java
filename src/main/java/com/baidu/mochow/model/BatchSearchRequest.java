@@ -9,7 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import com.baidu.mochow.model.entity.ANNSearchParams;
+import com.baidu.mochow.model.entity.BatchANNSearchParams;
 import com.baidu.mochow.model.entity.GeneralParams;
 import com.baidu.mochow.model.enums.ReadConsistency;
 
@@ -18,16 +18,16 @@ import com.baidu.mochow.model.enums.ReadConsistency;
 @Builder
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class SearchRequest extends AbstractMochowRequest {
+public class BatchSearchRequest extends AbstractMochowRequest {
     private String database;
     private String table;
-    private ANNSearchParams anns;
+    private BatchANNSearchParams anns;
     private GeneralParams partitionKey;
     boolean retrieveVector;
     List<String> projections;
     ReadConsistency readConsistency;
 
-    public SearchRequest(Builder builder) {
+    public BatchSearchRequest(Builder builder) {
         this.database = builder.database;
         this.table = builder.table;
         this.anns = builder.anns;
@@ -44,7 +44,7 @@ public class SearchRequest extends AbstractMochowRequest {
     public static class Builder {
         private String database;
         private String table;
-        private ANNSearchParams anns;
+        private BatchANNSearchParams anns;
         private GeneralParams partitionKey;
         boolean retrieveVector;
         List<String> projections;
@@ -66,7 +66,7 @@ public class SearchRequest extends AbstractMochowRequest {
             return this;
         }
 
-        public Builder anns(ANNSearchParams anns) {
+        public Builder anns(BatchANNSearchParams anns) {
             this.anns = anns;
             return this;
         }
@@ -99,8 +99,8 @@ public class SearchRequest extends AbstractMochowRequest {
             return this;
         }
 
-        public SearchRequest build() {
-            return new SearchRequest(this);
+        public BatchSearchRequest build() {
+            return new BatchSearchRequest(this);
         }
     }
 }

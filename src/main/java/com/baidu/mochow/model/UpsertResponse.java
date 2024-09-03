@@ -1,4 +1,10 @@
 package com.baidu.mochow.model;
 
-public class UpsertResponse extends InsertResponse {
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class UpsertResponse extends AbstractMochowResponse {
+    private int affectedCount;
 }

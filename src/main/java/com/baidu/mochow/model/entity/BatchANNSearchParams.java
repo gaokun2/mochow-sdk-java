@@ -1,4 +1,4 @@
-package com.baidu.mochow.model;
+package com.baidu.mochow.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -8,15 +8,14 @@ import lombok.Setter;
 
 import java.util.List;
 
-import com.baidu.mochow.model.entity.Row;
-
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class UpsertRequest extends AbstractMochowRequest {
-    private String database;
-    private String table;
-    private List<Row> rows;
+public class BatchANNSearchParams {
+    private String vectorField;
+    private List<List<Float>> vectorFloats;
+    private SearchParams params;
+    private String filter;
 }

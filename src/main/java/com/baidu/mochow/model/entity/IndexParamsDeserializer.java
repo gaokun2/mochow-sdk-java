@@ -12,8 +12,7 @@ import com.baidu.mochow.exception.MochowServiceException;
 
 public class IndexParamsDeserializer extends JsonDeserializer<IndexParams> {
     @Override
-    public IndexParams deserialize(JsonParser p, DeserializationContext ctxt)
-            throws IOException, JacksonException {
+    public IndexParams deserialize(JsonParser p, DeserializationContext ctx) throws IOException, JacksonException {
         String paramStr = p.getCodec().readTree(p).toString();
         Object o = p.getCurrentValue();
         if (o instanceof IndexField) {
@@ -31,7 +30,6 @@ public class IndexParamsDeserializer extends JsonDeserializer<IndexParams> {
                 return params;
             }
         }
-        throw new MochowServiceException("deserialize IndexField exception, expect IndexField class, actually value is "
-                + o.toString());
+        return null;
     }
 }

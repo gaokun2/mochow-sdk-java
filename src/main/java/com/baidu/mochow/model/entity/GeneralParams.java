@@ -16,6 +16,7 @@ public class GeneralParams {
     private Map<String, Object> items;
 
     public GeneralParams() {
+        this.items = new HashMap<>();
     }
 
     public GeneralParams(GeneralParams.Builder builder) {
@@ -24,6 +25,10 @@ public class GeneralParams {
 
     public Object get(String fieldName) {
         return this.items.get(fieldName);
+    }
+
+    public void add(String key, Object value) {
+        this.items.put(key, value);
     }
 
     public static GeneralParams.Builder builder() {

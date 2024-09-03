@@ -4,11 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import com.baidu.mochow.model.entity.Table;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class DescribeTableResponse extends AbstractMochowResponse {
-    private Table table;
+public class BatchSearchResponse extends AbstractMochowResponse {
+    private List<SearchResponse> results;
 }

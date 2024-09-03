@@ -1,6 +1,5 @@
 package com.baidu.mochow.client;
 
-import com.baidu.mochow.model.UpsertResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,6 +54,9 @@ import com.baidu.mochow.model.ShowTableStatsResponse;
 import com.baidu.mochow.model.UnaliasTableRequest;
 import com.baidu.mochow.model.UpdateRequest;
 import com.baidu.mochow.model.UpsertRequest;
+import com.baidu.mochow.model.BatchSearchRequest;
+import com.baidu.mochow.model.BatchSearchResponse;
+import com.baidu.mochow.model.UpsertResponse;
 
 public class MochowClient extends AbstractMochowClient {
 
@@ -79,6 +81,7 @@ public class MochowClient extends AbstractMochowClient {
     private static final String DELETE = "delete";
     private static final String QUERY = "query";
     private static final String SEARCH = "search";
+    private static final String BATCH_SEARCH = "batchSearch";
     private static final String UPDATE = "update";
     private static final String SELECT = "select";
 
@@ -273,6 +276,13 @@ public class MochowClient extends AbstractMochowClient {
         internalRequest.addParameter(SEARCH, "");
         fillPayload(internalRequest, request);
         return this.invokeHttpClient(internalRequest, SearchResponse.class);
+    }
+
+    public BatchSearchResponse batchSearch(BatchSearchRequest request) throws MochowClientException {
+        InternalRequest internalRequest = this.createRequest(request, HttpMethodName.POST, ROW_PREFIX);
+        internalRequest.addParameter(BATCH_SEARCH, "");
+        fillPayload(internalRequest, request);
+        return this.invokeHttpClient(internalRequest, BatchSearchResponse.class);
     }
 
     public void update(UpdateRequest request) throws MochowClientException {

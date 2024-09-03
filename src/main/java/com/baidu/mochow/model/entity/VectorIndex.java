@@ -16,12 +16,14 @@ public class VectorIndex extends IndexField {
     @Builder
     public VectorIndex(
             String indexName, String fieldName, IndexType indexType, IndexState state,
-            MetricType metricType, IndexParams params) {
+            MetricType metricType, IndexParams params, boolean autoBuild, AutoBuildPolicy autoBuildPolicy) {
         setIndexName(indexName);
         setField(fieldName);
         setIndexType(indexType);
         setState(state);
         setMetricType(metricType);
         setParams(params);
+        setAutoBuild(autoBuild);
+        setAutoBuildPolicy(autoBuildPolicy);
     }
 }

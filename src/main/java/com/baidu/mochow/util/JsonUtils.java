@@ -47,7 +47,6 @@ public class JsonUtils {
         JsonUtils.OBJECT_MAPPER.setSerializationInclusion(Include.NON_NULL);
 
         SimpleModule module = new SimpleModule();
-        module.addDeserializer(IndexParams.class, new IndexParamsDeserializer());
         module.addSerializer(Row.class, new RowSerializer());
         module.addDeserializer(Row.class, new RowDeserializer());
         OBJECT_MAPPER.registerModule(module);

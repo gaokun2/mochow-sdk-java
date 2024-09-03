@@ -99,7 +99,7 @@ public abstract class AbstractMochowClient {
      * @throws IllegalArgumentException if the endpoint specified in the client configuration is not a valid URI.
      */
     public AbstractMochowClient(ClientConfiguration config, HttpResponseHandler[] responseHandlers) {
-        this(config, responseHandlers, false);
+        this(config, responseHandlers, true);
     }
 
     /**

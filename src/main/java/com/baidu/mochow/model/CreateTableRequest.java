@@ -1,11 +1,12 @@
 package com.baidu.mochow.model;
 
-import com.baidu.mochow.model.entity.PartitionParams;
-import com.baidu.mochow.model.entity.Schema;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+import com.baidu.mochow.model.entity.PartitionParams;
+import com.baidu.mochow.model.entity.Schema;
 
 @Getter
 @Setter
