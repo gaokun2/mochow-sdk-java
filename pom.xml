@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.baidu</groupId>
-    <artifactId>mochow-java-sdk</artifactId>
-    <version>0.0.1</version>
-    <name>mochow-java-sdk</name>
+    <artifactId>mochow-sdk-java</artifactId>
+    <version>1.0.0</version>
+    <name>mochow-sdk-java</name>
     <description>Java SDK for mochow.</description>
     <url>https://cloud.baidu.com/doc/VDB/index.html</url>
 
     <scm>
-        <url>https://github.com/baidu/mochow-java-sdk.git</url>
+        <url>https://github.com/baidu/mochow-sdk-java.git</url>
     </scm>
 
     <licenses>
@@ -25,7 +25,7 @@
 
     <developers>
         <developer>
-            <id>mochow</id>
+            <id>bce</id>
             <organization>Baidu Open Cloud</organization>
             <organizationUrl>http://bce.baidu.com</organizationUrl>
             <roles>

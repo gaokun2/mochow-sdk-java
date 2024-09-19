@@ -28,8 +28,6 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import com.baidu.mochow.exception.MochowClientException;
-import com.baidu.mochow.model.entity.IndexParamsDeserializer;
-import com.baidu.mochow.model.entity.IndexParams;
 import com.baidu.mochow.model.entity.Row;
 import com.baidu.mochow.model.entity.RowDeserializer;
 import com.baidu.mochow.model.entity.RowSerializer;
