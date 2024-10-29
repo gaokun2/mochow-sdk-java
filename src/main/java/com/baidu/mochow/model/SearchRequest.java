@@ -27,6 +27,7 @@ import lombok.Setter;
 import com.baidu.mochow.model.entity.ANNSearchParams;
 import com.baidu.mochow.model.entity.GeneralParams;
 import com.baidu.mochow.model.entity.Vector;
+import com.baidu.mochow.model.entity.FusionRankPolicy;
 import com.baidu.mochow.model.entity.VectorSearchConfig;
 import com.baidu.mochow.model.enums.ReadConsistency;
 
@@ -211,6 +212,27 @@ public class SearchRequest extends AbstractMochowRequest {
         public VectorSearchConfig config;
     }
 
+    static class MultiVectorSearchFields extends SearchCommonFields {
+        public void fillSearchFields(Map<String, Object> fields) {
+            for (Map.Entry<String, Object> entry : searchCommonFieldsToMap((SearchCommonFields) this).entrySet()) {
+                fields.put(entry.getKey(), entry.getValue());
+            }
+
+            List<Object> search = new ArrayList<>();
+            for (SingleVectorSearchRequestInterface request : requests) {
+                search.add(request.toMap().get("anns"));
+            }
+            fields.put("search", search);
+
+            if (ranking != null) {
+                fields.put("ranking", ranking.representation());
+            }
+        }
+
+        public List<SingleVectorSearchRequestInterface> requests;
+        public FusionRankPolicy ranking;
+    }
+
     static class BM25SearchFields extends SearchCommonFields {
         public void fillSearchFields(Map<String, Object> fields) {
             for (Map.Entry<String, Object> entry : searchCommonFieldsToMap((SearchCommonFields) this).entrySet()) {
@@ -268,6 +290,9 @@ public class SearchRequest extends AbstractMochowRequest {
     }
 
     public interface VectorSearchRequestInterface extends SearchRequestInterface {
+    }
+
+    public interface SingleVectorSearchRequestInterface extends VectorSearchRequestInterface {
     }
 
     public interface BM25SearchRequestInterface extends SearchRequestInterface {

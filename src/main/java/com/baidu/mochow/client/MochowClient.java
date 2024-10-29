@@ -104,6 +104,7 @@ public class MochowClient extends AbstractMochowClient {
     private static final String QUERY = "query";
     private static final String SEARCH = "search";
     private static final String BATCH_SEARCH = "batchSearch";
+    private static final String MULTI_VECTOR_SEARCH = "multiVectorSearch";
     private static final String UPDATE = "update";
     private static final String SELECT = "select";
 

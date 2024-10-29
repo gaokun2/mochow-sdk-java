@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.baidu.mochow.model.SearchRequest.VectorSearchRequestInterface;
+import com.baidu.mochow.model.SearchRequest.SingleVectorSearchRequestInterface;
 import com.baidu.mochow.model.SearchRequest.VectorSearchFields;
 import com.baidu.mochow.model.entity.DistanceRange;
 import com.baidu.mochow.model.entity.GeneralParams;
@@ -26,7 +26,7 @@ import com.baidu.mochow.model.entity.VectorSearchConfig;
 import com.baidu.mochow.model.enums.ReadConsistency;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public class VectorRangeSearchRequest implements VectorSearchRequestInterface {
+public class VectorRangeSearchRequest implements SingleVectorSearchRequestInterface {
     private VectorRangeSearchRequest(VectorSearchFields fields) {
         this.fields = fields;
     }

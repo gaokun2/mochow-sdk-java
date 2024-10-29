@@ -15,6 +15,7 @@ import com.baidu.mochow.model.DeleteRequest;
 import com.baidu.mochow.model.DescribeIndexResponse;
 import com.baidu.mochow.model.DescribeTableResponse;
 import com.baidu.mochow.model.HybridSearchRequest;
+import com.baidu.mochow.model.MultiVectorSearchRequest;
 import com.baidu.mochow.model.QueryRequest;
 import com.baidu.mochow.model.QueryResponse;
 import com.baidu.mochow.model.SearchRowResponse;
@@ -27,6 +28,7 @@ import com.baidu.mochow.model.UpsertResponse;
 import com.baidu.mochow.model.VectorBatchSearchRequest;
 import com.baidu.mochow.model.VectorRangeSearchRequest;
 import com.baidu.mochow.model.VectorTopkSearchRequest;
+import com.baidu.mochow.model.SearchRequest.SingleVectorSearchRequestInterface;
 import com.baidu.mochow.model.entity.DistanceRange;
 import com.baidu.mochow.model.entity.Field;
 import com.baidu.mochow.model.entity.FloatVector;
@@ -34,6 +36,7 @@ import com.baidu.mochow.model.entity.HNSWParams;
 import com.baidu.mochow.model.entity.InvertedIndex;
 import com.baidu.mochow.model.entity.InvertedIndexParams;
 import com.baidu.mochow.model.entity.PartitionParams;
+import com.baidu.mochow.model.entity.RRFRank;
 import com.baidu.mochow.model.entity.Row;
 import com.baidu.mochow.model.entity.RowField;
 import com.baidu.mochow.model.entity.Schema;
@@ -314,6 +317,7 @@ public class MochowExample {
         this.topkSearch();
         this.rangeSearch();
         this.batchSearch();
+        this.multiVectorSearch();
         this.bm25Search();
         this.hybridSearch();
     }
@@ -341,6 +345,37 @@ public class MochowExample {
 
         SearchRowResponse searchResponse = mochowClient.vectorSearch(DATABASE, TABLE, searchRequest);
         System.out.printf("RangeSearch result: %s\n", JsonUtils.toJsonString(searchResponse.getRows()));
+    }
+
+    public void multiVectorSearch() throws MochowClientException, InterruptedException {
+        List<SingleVectorSearchRequestInterface> requests = new ArrayList<>();
+
+        // in real world senario, you should use vectors in different columns
+        requests.add(
+            VectorTopkSearchRequest.builder(
+                "vector", new FloatVector(Arrays.asList(1F, 0.21F, 0.213F, 0F)), 10
+            )
+            .config(new VectorSearchConfig().setEf(200))
+            .build()
+        );
+
+        requests.add(
+            VectorTopkSearchRequest.builder(
+                "vector", new FloatVector(Arrays.asList(1F, 0.21F, 0.213F, 0F)), 10
+            )
+            .config(new VectorSearchConfig().setEf(200))
+            .build()
+        );
+
+        MultiVectorSearchRequest searchRequest = MultiVectorSearchRequest.builder(requests)
+            .rankPolicy(new RRFRank(60))
+            .limit(10)
+            .filter("bookName='三国演义'")
+            .projections(Arrays.asList("id"))
+            .build();
+
+        SearchRowResponse searchResponse = mochowClient.vectorSearch(DATABASE, TABLE, searchRequest);
+        System.out.printf("MultiVectorSearch result: %s\n", JsonUtils.toJsonString(searchResponse.getRows()));
     }
 
     public void batchSearch() throws MochowClientException, InterruptedException {

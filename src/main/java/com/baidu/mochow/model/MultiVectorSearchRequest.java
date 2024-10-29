@@ -17,16 +17,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.baidu.mochow.model.SearchRequest.VectorSearchRequestInterface;
 import com.baidu.mochow.model.SearchRequest.SingleVectorSearchRequestInterface;
-import com.baidu.mochow.model.SearchRequest.VectorSearchFields;
+import com.baidu.mochow.model.SearchRequest.MultiVectorSearchFields;
 import com.baidu.mochow.model.entity.GeneralParams;
-import com.baidu.mochow.model.entity.Vector;
-import com.baidu.mochow.model.entity.VectorSearchConfig;
+import com.baidu.mochow.model.entity.FusionRankPolicy;
 import com.baidu.mochow.model.enums.ReadConsistency;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public class VectorTopkSearchRequest implements SingleVectorSearchRequestInterface {
-    private VectorTopkSearchRequest(VectorSearchFields fields) {
+public class MultiVectorSearchRequest implements VectorSearchRequestInterface {
+    private MultiVectorSearchRequest(MultiVectorSearchFields fields) {
         this.fields = fields;
     }
 
@@ -40,24 +40,26 @@ public class VectorTopkSearchRequest implements SingleVectorSearchRequestInterfa
 
     @Override
     public String requestType() {
-        return "search";
+        return "multiVectorSearch";
     }
 
-    public static Builder builder(String vectorField, Vector vector, int limit) {
-        return new Builder(vectorField, vector, limit);
+    public static Builder builder(List<SingleVectorSearchRequestInterface> requests) {
+        return new Builder(requests);
     }
 
     public static class Builder{
-        Builder(String vectorField, Vector vector, int limit) {
-            this.fields = new VectorSearchFields();
-            this.fields.vectorField = vectorField;
-            this.fields.vector = vector;
-            this.fields.limit = limit;
-            this.fields.hasLimit = true;
+        Builder(List<SingleVectorSearchRequestInterface> requests) {
+            this.fields = new MultiVectorSearchFields();
+            this.fields.requests = requests;
         }
 
-        public VectorTopkSearchRequest build() {
-            return new VectorTopkSearchRequest(this.fields);
+        public MultiVectorSearchRequest build() {
+            return new MultiVectorSearchRequest(this.fields);
+        }
+
+        public Builder rankPolicy(FusionRankPolicy policy) {
+            this.fields.ranking = policy;
+            return this;
         }
 
         public Builder partitionKey(GeneralParams partitionKey) {
@@ -80,13 +82,14 @@ public class VectorTopkSearchRequest implements SingleVectorSearchRequestInterfa
             return this;
         }
 
-        public Builder config(VectorSearchConfig config) {
-            this.fields.config = config;
+        public Builder limit(int limit) {
+            this.fields.hasLimit = true;
+            this.fields.limit = limit;
             return this;
         }
 
-        private VectorSearchFields fields;
+        private MultiVectorSearchFields fields;
     }
 
-    private VectorSearchFields fields;
+    private MultiVectorSearchFields fields;
 }
