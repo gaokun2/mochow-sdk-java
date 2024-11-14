@@ -44,6 +44,8 @@ import com.baidu.mochow.model.entity.SecondaryIndex;
 import com.baidu.mochow.model.entity.Vector;
 import com.baidu.mochow.model.entity.VectorIndex;
 import com.baidu.mochow.model.entity.VectorSearchConfig;
+import com.baidu.mochow.model.entity.ArrayUpdateOperations;
+import com.baidu.mochow.model.enums.ElementType;
 import com.baidu.mochow.model.enums.FieldType;
 import com.baidu.mochow.model.enums.IndexState;
 import com.baidu.mochow.model.enums.IndexType;
@@ -166,6 +168,12 @@ public class MochowExample {
                                 .fieldName("vector")
                                 .fieldType(FieldType.FLOAT_VECTOR)
                                 .dimension(4).build())
+                .addField(
+                   // 'elementType' must be set for ARRAY, 'maxCapacity' is optional
+                    Field.builder()
+                            .fieldName("arr_field")
+                            .fieldType(FieldType.ARRAY)
+                            .elementType(ElementType.STRING).build())
                 .addIndex(
                         VectorIndex.builder()
                                 .indexName("vector_idx")
@@ -213,6 +221,7 @@ public class MochowExample {
                         .addField(new RowField("bookName", "西游记"))
                         .addField(new RowField("author", "吴承恩"))
                         .addField(new RowField("page", 21))
+                        .addField(new RowField("arr_field", Arrays.asList()))
                         .addField(new RowField("segment", "富贵功名，前缘分定，为人切莫欺心。")).build()
         );
         rows.add(
@@ -222,6 +231,7 @@ public class MochowExample {
                         .addField(new RowField("bookName", "西游记"))
                         .addField(new RowField("author", "吴承恩"))
                         .addField(new RowField("page", 22))
+                        .addField(new RowField("arr_field", Arrays.asList()))
                         .addField(new RowField("segment", "正大光明，忠良善果弥深。些些狂妄天加谴，眼前不遇待时临。")).build()
         );
         rows.add(
@@ -231,6 +241,7 @@ public class MochowExample {
                         .addField(new RowField("bookName", "三国演义"))
                         .addField(new RowField("author", "罗贯中"))
                         .addField(new RowField("page", 23))
+                        .addField(new RowField("arr_field", Arrays.asList("吕布")))
                         .addField(new RowField("segment", "细作探知这个消息，飞报吕布。")).build()
         );
         rows.add(
@@ -240,6 +251,7 @@ public class MochowExample {
                         .addField(new RowField("bookName", "三国演义"))
                         .addField(new RowField("author", "罗贯中"))
                         .addField(new RowField("page", 24))
+                        .addField(new RowField("arr_field", Arrays.asList("吕布", "陈宫", "刘玄德")))
                         .addField(new RowField("segment", "布大惊，与陈宫商议。宫曰：“闻刘玄德新领徐州，可往投之。” 布从其言，竟投徐州来。有人报知玄德。")).build()
         );
         rows.add(
@@ -249,6 +261,7 @@ public class MochowExample {
                         .addField(new RowField("bookName", "三国演义"))
                         .addField(new RowField("author", "罗贯中"))
                         .addField(new RowField("page", 25))
+                        .addField(new RowField("arr_field", Arrays.asList("玄德", "糜竺", "吕布")))
                         .addField(new RowField("segment", "玄德曰：“布乃当今英勇之士，可出迎之。”糜竺曰：“吕布乃虎狼之徒，不可收留；收则伤人矣。")).build()
         );
         for (int i = 6; i <= 100; i++) {
@@ -259,6 +272,7 @@ public class MochowExample {
                             .addField(new RowField("bookName", "三国演义"))
                             .addField(new RowField("author", "罗贯中"))
                             .addField(new RowField("page", 26))
+                            .addField(new RowField("arr_field", Arrays.asList("玄德", "糜竺", "吕布")))
                             .addField(new RowField("segment", "玄德曰：“布乃当今英勇之士，可出迎之。”糜竺曰：“吕布乃虎狼之徒，不可收留；收则伤人矣。")).build()
             );
         }
@@ -447,6 +461,7 @@ public class MochowExample {
                 .addUpdate("bookName", "红楼梦")
                 .addUpdate("author", "曹雪芹")
                 .addUpdate("page", 21)
+                .addUpdate("arr_field", new ArrayUpdateOperations.Append(Arrays.asList("林黛玉", "薛宝钗")))
                 .addUpdate("segment", "满纸荒唐言，一把辛酸泪").build();
         mochowClient.update(updateRequest);
     }
