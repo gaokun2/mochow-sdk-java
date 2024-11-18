@@ -51,7 +51,7 @@ public class ArrayUpdateOperations {
         @JsonValue
         public Object getValue() {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put("operator", "append");
+            map.put("operator", "remove");
             map.put("value", value);
             return map;
         }
