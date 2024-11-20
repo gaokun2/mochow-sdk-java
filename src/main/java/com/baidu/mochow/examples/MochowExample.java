@@ -35,6 +35,7 @@ import com.baidu.mochow.model.entity.FloatVector;
 import com.baidu.mochow.model.entity.HNSWParams;
 import com.baidu.mochow.model.entity.InvertedIndex;
 import com.baidu.mochow.model.entity.InvertedIndexParams;
+import com.baidu.mochow.model.entity.FilteringIndex;
 import com.baidu.mochow.model.entity.PartitionParams;
 import com.baidu.mochow.model.entity.RRFRank;
 import com.baidu.mochow.model.entity.Row;
@@ -189,6 +190,9 @@ public class MochowExample {
                               new InvertedIndexParams(
                                   InvertedIndexAnalyzer.CHINESE_ANALYZER,
                                   InvertedIndexParseMode.FINE_MODE)))
+                .addIndex(new FilteringIndex(
+                              "bookname_filtering_idx",
+                              new String[]{"bookName"}))
                 .build();
         CreateTableRequest createTableRequest = CreateTableRequest.builder()
                 .database(DATABASE)

@@ -11,27 +11,22 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.baidu.mochow.model.enums;
+package com.baidu.mochow.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-
-public enum IndexType {
-    FLAT("FLAT"),
-    HNSW("HNSW"),
-    PUCK("PUCK"),
-    SECONDARY_INDEX("SECONDARY"),
-    INVERTED_INDEX("INVERTED"),
-    FILTERING_INDEX("FILTERING");
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
 
 
-    private final String value;
+@Getter
+@Setter
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class FilteringIndexField {
+    private String field;
 
-    private IndexType(String value) {
-        this.value = value;
+    public FilteringIndexField(String field) {
+        setField(field);
     }
 
-    @JsonValue
-    public String getValue() {
-        return value;
-    }
 }
+
