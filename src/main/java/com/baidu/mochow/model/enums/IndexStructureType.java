@@ -11,25 +11,22 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.baidu.mochow.model.entity;
+package com.baidu.mochow.model.enums;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonValue;
 
-import com.baidu.mochow.model.enums.IndexStructureType;
+public enum IndexStructureType {
+    DEFAULT("DEFAULT"),
+    BITMAP("BITMAP");
 
-@Getter
-@Setter
-@AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class FilteringIndexField {
-    private String field;
-    private IndexStructureType indexStructureType;
+    private final String value;
 
-    public FilteringIndexField(String field) {
-        setField(field);
-        setIndexStructureType(IndexStructureType.DEFAULT);
+    private IndexStructureType(String value) {
+        this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+        return value;
     }
 }

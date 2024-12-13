@@ -31,6 +31,7 @@ import com.baidu.mochow.model.VectorTopkSearchRequest;
 import com.baidu.mochow.model.SearchRequest.SingleVectorSearchRequestInterface;
 import com.baidu.mochow.model.entity.DistanceRange;
 import com.baidu.mochow.model.entity.Field;
+import com.baidu.mochow.model.entity.FilteringIndexField;
 import com.baidu.mochow.model.entity.FloatVector;
 import com.baidu.mochow.model.entity.HNSWParams;
 import com.baidu.mochow.model.entity.InvertedIndex;
@@ -49,6 +50,7 @@ import com.baidu.mochow.model.entity.ArrayUpdateOperations;
 import com.baidu.mochow.model.enums.ElementType;
 import com.baidu.mochow.model.enums.FieldType;
 import com.baidu.mochow.model.enums.IndexState;
+import com.baidu.mochow.model.enums.IndexStructureType;
 import com.baidu.mochow.model.enums.IndexType;
 import com.baidu.mochow.model.enums.InvertedIndexAnalyzer;
 import com.baidu.mochow.model.enums.InvertedIndexParseMode;
@@ -166,6 +168,10 @@ public class MochowExample {
                                 .fieldType(FieldType.TEXT).build())
                 .addField(
                         Field.builder()
+                                .fieldName("category")
+                                .fieldType(FieldType.UINT32).build())
+                .addField(
+                        Field.builder()
                                 .fieldName("vector")
                                 .fieldType(FieldType.FLOAT_VECTOR)
                                 .dimension(4).build())
@@ -193,6 +199,8 @@ public class MochowExample {
                 .addIndex(new FilteringIndex(
                               "bookname_filtering_idx",
                               new String[]{"bookName"}))
+                .addIndex(FilteringIndex.builder()
+                            .addField(new FilteringIndexField("category", IndexStructureType.BITMAP)).build())
                 .build();
         CreateTableRequest createTableRequest = CreateTableRequest.builder()
                 .database(DATABASE)

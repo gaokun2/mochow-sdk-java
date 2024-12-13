@@ -18,12 +18,14 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import com.baidu.mochow.model.enums.IndexType;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class FilteringIndex extends IndexField {
     private List<FilteringIndexField> fields;
@@ -38,5 +40,29 @@ public class FilteringIndex extends IndexField {
         }
     }
 
-}
+    private FilteringIndex(FilteringIndex.Builder builder) {
+        this.fields = builder.fields;
+    }
 
+    public static FilteringIndex.Builder builder() {
+        return new FilteringIndex.Builder();
+    }
+
+    public static class Builder {
+        private List<FilteringIndexField> fields;
+
+        private Builder() {
+            this.fields = new ArrayList<>();
+        }
+
+        public FilteringIndex.Builder addField(FilteringIndexField field) {
+            this.fields.add(field);
+            return this;
+        }
+
+        public FilteringIndex build() {
+            return new FilteringIndex(this);
+        }
+    }
+
+}
