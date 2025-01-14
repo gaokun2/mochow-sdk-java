@@ -41,6 +41,8 @@ public class FilteringIndex extends IndexField {
     }
 
     private FilteringIndex(FilteringIndex.Builder builder) {
+        setIndexName(builder.indexName);
+        setIndexType(IndexType.FILTERING_INDEX);
         this.fields = builder.fields;
     }
 
@@ -49,10 +51,18 @@ public class FilteringIndex extends IndexField {
     }
 
     public static class Builder {
+        private IndexType indexType;
+        private String indexName;
         private List<FilteringIndexField> fields;
 
         private Builder() {
+            this.indexType = IndexType.FILTERING_INDEX;
             this.fields = new ArrayList<>();
+        }
+
+        public FilteringIndex.Builder name(String indexName) {
+            this.indexName = indexName;
+            return this;
         }
 
         public FilteringIndex.Builder addField(FilteringIndexField field) {

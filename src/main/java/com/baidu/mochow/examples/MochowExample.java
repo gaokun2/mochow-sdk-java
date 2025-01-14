@@ -200,8 +200,10 @@ public class MochowExample {
                               "bookname_filtering_idx",
                               new String[]{"bookName"}))
                 .addIndex(FilteringIndex.builder()
+                            .name("category_filtering_idx")
                             .addField(new FilteringIndexField("category", IndexStructureType.BITMAP)).build())
                 .build();
+
         CreateTableRequest createTableRequest = CreateTableRequest.builder()
                 .database(DATABASE)
                 .table(TABLE)
