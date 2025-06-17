@@ -12,16 +12,25 @@
  */
 
 package com.baidu.mochow.model.entity;
+import java.util.List;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonValue;
 
-@Getter
-@Setter
-@NoArgsConstructor
-public class SearchResultRow {
-    private Row row;
-    private float distance;
-    private float score;
+public class FloatVector implements Vector {
+    public FloatVector(List<Float> vectorFloats) {
+        this.vectorFloats = vectorFloats;
+    }
+
+    @Override
+    public String name() {
+        return "vectorFloats";
+    }
+
+    @JsonValue
+    @Override
+    public Object representation() {
+        return vectorFloats;
+    }
+
+    private List<Float> vectorFloats;
 }

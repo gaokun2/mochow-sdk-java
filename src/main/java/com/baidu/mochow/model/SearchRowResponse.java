@@ -11,7 +11,13 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.baidu.mochow.model.entity;
+package com.baidu.mochow.model;
+
+import java.util.List;
+
+import com.baidu.mochow.model.entity.SearchResultRow;
+import com.baidu.mochow.model.entity.BatchSearchResultRows;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,8 +26,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SearchResultRow {
-    private Row row;
-    private float distance;
-    private float score;
+public class SearchRowResponse extends AbstractMochowResponse  {
+    @JsonProperty("rows")
+    List<SearchResultRow> rows; // for single search
+
+    @JsonProperty("results")
+    List<BatchSearchResultRows> batchRows; // for batch search
 }

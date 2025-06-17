@@ -19,7 +19,10 @@ public enum IndexType {
     FLAT("FLAT"),
     HNSW("HNSW"),
     PUCK("PUCK"),
-    SECONDARY_INDEX("SECONDARY");
+    SECONDARY_INDEX("SECONDARY"),
+    INVERTED_INDEX("INVERTED"),
+    FILTERING_INDEX("FILTERING");
+
 
     private final String value;
 

@@ -33,6 +33,7 @@ import com.baidu.mochow.model.enums.MetricType;
 public class IndexField {
     private String indexName;
     private String field;
+
     private IndexType indexType;
     private IndexState state;
 

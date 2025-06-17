@@ -13,15 +13,28 @@
 
 package com.baidu.mochow.model.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-@Getter
-@Setter
-@NoArgsConstructor
-public class SearchResultRow {
-    private Row row;
-    private float distance;
-    private float score;
+import com.fasterxml.jackson.annotation.JsonValue;
+
+public class WeightedRank implements FusionRankPolicy {
+    public WeightedRank(List<Float> weights) {
+        this.weights = weights;
+    }
+
+    @JsonValue
+    @Override
+    public Object representation() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("weights", weights);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("strategy", "ws");
+        map.put("params", params);
+        return map;
+    }
+
+    private List<Float> weights;
 }

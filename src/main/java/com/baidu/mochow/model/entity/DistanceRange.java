@@ -13,15 +13,20 @@
 
 package com.baidu.mochow.model.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+public class DistanceRange {
+    public DistanceRange(float min, float max) {
+        this.min = min;
+        this.max = max;
+    }
 
-@Getter
-@Setter
-@NoArgsConstructor
-public class SearchResultRow {
-    private Row row;
-    private float distance;
-    private float score;
+    public float getMin() {
+        return min;
+    }
+
+    public float getMax() {
+        return max;
+    }
+
+    private float min;
+    private float max;
 }

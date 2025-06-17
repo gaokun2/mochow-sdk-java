@@ -15,19 +15,57 @@ package com.baidu.mochow.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import com.baidu.mochow.model.entity.IndexField;
 
 @Getter
 @Setter
-@Builder
+@NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ModifyIndexRequest extends AbstractMochowRequest {
     private String database;
     private String table;
     private IndexField index;
+
+    private ModifyIndexRequest(ModifyIndexRequest.Builder builder) {
+        this.database = builder.database;
+        this.table = builder.table;
+        this.index = builder.index;
+    }
+
+    public static ModifyIndexRequest.Builder builder() {
+        return new ModifyIndexRequest.Builder();
+    }
+
+    public static class Builder {
+        private String database;
+        private String table;
+        private IndexField index;
+
+        private Builder() {
+        }
+
+        public ModifyIndexRequest.Builder database(String database) {
+            this.database = database;
+            return this;
+        }
+
+        public ModifyIndexRequest.Builder table(String table) {
+            this.table = table;
+            return this;
+        }
+
+        public ModifyIndexRequest.Builder index(IndexField index) {
+            this.index = index;
+            return this;
+        }
+
+        public ModifyIndexRequest build() {
+            return new ModifyIndexRequest(this);
+        }
+    }
 }

@@ -13,6 +13,8 @@
 
 package com.baidu.mochow.model.entity;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,8 +22,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SearchResultRow {
-    private Row row;
-    private float distance;
-    private float score;
+public class BatchSearchResultRows {
+    private List<Float> searchVectorFloats;
+    private List<SearchResultRow> rows;
 }

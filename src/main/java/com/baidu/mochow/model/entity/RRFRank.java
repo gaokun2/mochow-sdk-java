@@ -13,15 +13,27 @@
 
 package com.baidu.mochow.model.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.HashMap;
+import java.util.Map;
 
-@Getter
-@Setter
-@NoArgsConstructor
-public class SearchResultRow {
-    private Row row;
-    private float distance;
-    private float score;
+import com.fasterxml.jackson.annotation.JsonValue;
+
+public class RRFRank implements FusionRankPolicy {
+    public RRFRank(int k) {
+        this.k = k;
+    }
+
+    @JsonValue
+    @Override
+    public Object representation() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("k", this.k);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("strategy", "rrf");
+        map.put("params", params);
+        return map;
+    }
+
+    private int k;
 }
