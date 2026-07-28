@@ -49,12 +49,14 @@ public class IndexField {
 
     @JsonIgnore
     public boolean isVectorIndex() {
-        return this.indexType.equals(IndexType.HNSW) || this.indexType.equals(IndexType.PUCK)
-                || this.indexType.equals(IndexType.HNSWPQ)
-                || this.indexType.equals(IndexType.HNSWSQ)
-                || this.indexType.equals(IndexType.SPARSE_OPTIMIZED_FLAT)
-                || this.indexType.equals(IndexType.DISKANN)
-                || this.indexType.equals(IndexType.IVF)
-                || this.indexType.equals(IndexType.IVFSQ);
+        return IndexType.HNSW.equals(this.indexType) || IndexType.HNSWPQ.equals(this.indexType)
+                || IndexType.HNSWSQ.equals(this.indexType)
+                || IndexType.HNSWRABITQ.equals(this.indexType)
+                || IndexType.PUCK.equals(this.indexType)
+                || IndexType.DISKANN.equals(this.indexType)
+                || IndexType.IVF.equals(this.indexType)
+                || IndexType.IVFPQ.equals(this.indexType)
+                || IndexType.IVFSQ.equals(this.indexType)
+                || IndexType.SPARSE_OPTIMIZED_FLAT.equals(this.indexType);
     }
 }

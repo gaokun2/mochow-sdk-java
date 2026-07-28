@@ -43,6 +43,10 @@ import com.baidu.mochow.model.enums.FilterMode;
  *     <td>ef</td>
  *   </tr>
  *   <tr>
+ *     <td>HNSWRABITQ</td>
+ *     <td>ef</td>
+ *   </tr>
+ *   <tr>
  *     <td>PUCK</td>
  *     <td>coarseCount</td>
  *   </tr>
@@ -52,6 +56,10 @@ import com.baidu.mochow.model.enums.FilterMode;
  *   </tr>
  *   <tr>
  *     <td>IVF</td>
+ *     <td>nprobe</td>
+ *   </tr>
+ *   <tr>
+ *     <td>IVFPQ</td>
  *     <td>nprobe</td>
  *   </tr>
  *   <tr>

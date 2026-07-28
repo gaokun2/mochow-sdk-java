@@ -41,8 +41,10 @@ import com.baidu.mochow.model.entity.FloatVector;
 import com.baidu.mochow.model.entity.HNSWParams;
 import com.baidu.mochow.model.entity.HNSWPQParams;
 import com.baidu.mochow.model.entity.HNSWSQParams;
+import com.baidu.mochow.model.entity.HNSWRABITQParams;
 import com.baidu.mochow.model.entity.DiskANNParams;
 import com.baidu.mochow.model.entity.IVFParams;
+import com.baidu.mochow.model.entity.IVFPQParams;
 import com.baidu.mochow.model.entity.IVFSQParams;
 import com.baidu.mochow.model.entity.InvertedIndex;
 import com.baidu.mochow.model.entity.InvertedIndexParams;
@@ -214,7 +216,7 @@ public class MochowExample {
                                 .fieldType(FieldType.JSON).build());
 
         // 根据索引类型创建不同的向量索引
-        if (vectorIndexType == IndexType.HNSW) {
+        if (IndexType.HNSW.equals(vectorIndexType)) {
             schemaBuilder.addIndex(
                     VectorIndex.builder()
                             .indexName("vector_idx")
@@ -223,7 +225,7 @@ public class MochowExample {
                             .params(new HNSWParams(32, 200))
                             .metricType(MetricType.L2)
                             .autoBuild(false).build());
-        } else if (vectorIndexType == IndexType.HNSWPQ) {
+        } else if (IndexType.HNSWPQ.equals(vectorIndexType)) {
             schemaBuilder.addIndex(
                     VectorIndex.builder()
                             .indexName("vector_idx")
@@ -232,7 +234,25 @@ public class MochowExample {
                             .params(new HNSWPQParams(32, 200, 4, 0.1f))
                             .metricType(MetricType.L2)
                             .autoBuild(false).build());
-        } else  if (vectorIndexType == IndexType.DISKANN) {
+        } else if (IndexType.HNSWSQ.equals(vectorIndexType)) {
+            schemaBuilder.addIndex(
+                VectorIndex.builder()
+                        .indexName("vector_idx")
+                        .indexType(IndexType.HNSWSQ)
+                        .fieldName("vector")
+                        .params(new HNSWSQParams(16, 200, 8))
+                        .metricType(MetricType.L2)
+                        .autoBuild(false).build());
+        } else if (IndexType.HNSWRABITQ.equals(vectorIndexType)) {
+            schemaBuilder.addIndex(
+                VectorIndex.builder()
+                        .indexName("vector_idx")
+                        .indexType(IndexType.HNSWRABITQ)
+                        .fieldName("vector")
+                        .params(new HNSWRABITQParams(32, 200))
+                        .metricType(MetricType.L2)
+                        .autoBuild(false).build());
+        } else if (IndexType.DISKANN.equals(vectorIndexType)) {
             schemaBuilder.addIndex(
                 VectorIndex.builder()
                         .indexName("vector_idx")
@@ -241,7 +261,7 @@ public class MochowExample {
                         .params(new DiskANNParams(4,100, 64))
                         .metricType(MetricType.L2)
                         .autoBuild(false).build());
-        } else if (vectorIndexType == IndexType.IVF) {
+        } else if (IndexType.IVF.equals(vectorIndexType)) {
             schemaBuilder.addIndex(
                 VectorIndex.builder()
                         .indexName("vector_idx")
@@ -250,22 +270,22 @@ public class MochowExample {
                         .params(new IVFParams(100))
                         .metricType(MetricType.L2)
                         .autoBuild(false).build());
-        } else if (vectorIndexType == IndexType.IVFSQ) {
+        } else if (IndexType.IVFPQ.equals(vectorIndexType)) {
+            schemaBuilder.addIndex(
+                VectorIndex.builder()
+                        .indexName("vector_idx")
+                        .indexType(IndexType.IVFPQ)
+                        .fieldName("vector")
+                        .params(new IVFPQParams(100, 4))
+                        .metricType(MetricType.L2)
+                        .autoBuild(false).build());
+        } else if (IndexType.IVFSQ.equals(vectorIndexType)) {
             schemaBuilder.addIndex(
                 VectorIndex.builder()
                         .indexName("vector_idx")
                         .indexType(IndexType.IVFSQ)
                         .fieldName("vector")
                         .params(new IVFSQParams(100, 8))
-                        .metricType(MetricType.L2)
-                        .autoBuild(false).build());
-        } else if (vectorIndexType == IndexType.HNSWSQ) {
-            schemaBuilder.addIndex(
-                VectorIndex.builder()
-                        .indexName("vector_idx")
-                        .indexType(IndexType.HNSWSQ)
-                        .fieldName("vector")
-                        .params(new HNSWSQParams(16, 200, 8))
                         .metricType(MetricType.L2)
                         .autoBuild(false).build());
         } else {
@@ -445,15 +465,18 @@ public class MochowExample {
         FloatVector vector = new FloatVector(Arrays.asList(1F, 0.21F, 0.213F, 0F));
         VectorTopkSearchRequest.Builder searchRequestBuilder = VectorTopkSearchRequest.builder("vector", vector, 10)
                 .filter("bookName='三国演义'");
-        if (this.vectorIndexType == IndexType.HNSW) {
+        if (IndexType.HNSW.equals(this.vectorIndexType)) {
             searchRequestBuilder = searchRequestBuilder.config(VectorSearchConfig.builder().ef(200).pruning(true).build());
-        } else if (this.vectorIndexType == IndexType.HNSWPQ) {
+        } else if (IndexType.HNSWPQ.equals(this.vectorIndexType)) {
             searchRequestBuilder = searchRequestBuilder.config(VectorSearchConfig.builder().ef(200).build());
-        } else if (this.vectorIndexType == IndexType.HNSWSQ) {
+        } else if (IndexType.HNSWSQ.equals(this.vectorIndexType)) {
             searchRequestBuilder = searchRequestBuilder.config(VectorSearchConfig.builder().ef(200).build());
-        } else if (this.vectorIndexType == IndexType.DISKANN) {
+        } else if (IndexType.HNSWRABITQ.equals(this.vectorIndexType)) {
+            searchRequestBuilder = searchRequestBuilder.config(VectorSearchConfig.builder().ef(200).build());
+        } else if (IndexType.DISKANN.equals(this.vectorIndexType)) {
             searchRequestBuilder = searchRequestBuilder.config(VectorSearchConfig.builder().w(1).searchL(100).build());
-        } else if (this.vectorIndexType == IndexType.IVF || this.vectorIndexType == IndexType.IVFSQ) {
+        } else if (IndexType.IVF.equals(this.vectorIndexType) || IndexType.IVFPQ.equals(this.vectorIndexType)
+                || IndexType.IVFSQ.equals(this.vectorIndexType)) {
             searchRequestBuilder = searchRequestBuilder.config(VectorSearchConfig.builder().nprobe(10).build());
         } else {
             throw new IllegalArgumentException("Unknown index type: " + this.vectorIndexType);

@@ -43,11 +43,11 @@ public class IndexParamsDeserializer extends JsonDeserializer<IndexParams> {
                     case HNSWSQ:
                         params = JsonUtils.fromJsonString(paramStr, HNSWSQParams.class);
                         break;
+                    case HNSWRABITQ:
+                        params = JsonUtils.fromJsonString(paramStr, HNSWRABITQParams.class);
+                        break;
                     case PUCK:
                         params = JsonUtils.fromJsonString(paramStr, PUCKParams.class);
-                        break;
-                    case SPARSE_OPTIMIZED_FLAT:
-                        params = null;
                         break;
                     case DISKANN:
                         params = JsonUtils.fromJsonString(paramStr, DiskANNParams.class);
@@ -55,11 +55,17 @@ public class IndexParamsDeserializer extends JsonDeserializer<IndexParams> {
                     case IVF:
                         params = JsonUtils.fromJsonString(paramStr, IVFParams.class);
                         break;
+                    case IVFPQ:
+                        params = JsonUtils.fromJsonString(paramStr, IVFPQParams.class);
+                        break;
                     case IVFSQ:
                         params = JsonUtils.fromJsonString(paramStr, IVFSQParams.class);
                         break;
+                    case SPARSE_OPTIMIZED_FLAT:
+                        params = null;
+                        break;
                 }
-            } else if (indexField.getIndexType().equals(IndexType.INVERTED_INDEX)) {
+            } else if (IndexType.INVERTED_INDEX.equals(indexField.getIndexType())) {
                 // inverted index
                 params = JsonUtils.fromJsonString(paramStr, InvertedIndexParams.class);
             }
