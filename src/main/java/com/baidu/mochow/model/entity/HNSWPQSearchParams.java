@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Baidu, Inc.
+ * Copyright 2025 Baidu, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,22 +14,26 @@
 package com.baidu.mochow.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class FLATSearchParams extends SearchParams {
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Float distanceNear;
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class HNSWPQSearchParams extends SearchParams {
+    private int ef;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Float distanceFar;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Float distanceNear;
 
-    private FLATSearchParams(Builder builder) {
+    public HNSWPQSearchParams(Builder builder) {
         setLimit(builder.limit);
-        this.distanceNear = builder.distanceNear;
+        this.ef = builder.ef;
         this.distanceFar = builder.distanceFar;
+        this.distanceNear = builder.distanceNear;
     }
 
     public static Builder builder() {
@@ -37,9 +41,10 @@ public class FLATSearchParams extends SearchParams {
     }
 
     public static class Builder {
-        private int limit;
-        private Float distanceNear;
+        private int ef;
         private Float distanceFar;
+        private Float distanceNear;
+        private int limit;
 
         public Builder() {
             this.limit = 50;
@@ -47,8 +52,8 @@ public class FLATSearchParams extends SearchParams {
             this.distanceFar = null;
         }
 
-        public Builder limit(int limit) {
-            this.limit = limit;
+        public Builder ef(int ef) {
+            this.ef = ef;
             return this;
         }
 
@@ -62,8 +67,23 @@ public class FLATSearchParams extends SearchParams {
             return this;
         }
 
-        public FLATSearchParams build() {
-            return new FLATSearchParams(this);
+        public Builder limit(int limit) {
+            this.limit = limit;
+            return this;
+        }
+
+        public HNSWPQSearchParams build() {
+            return new HNSWPQSearchParams(this);
         }
     }
-}
+
+    @Override
+    public String toString() {
+        return "HNSWPQSearchParams{" +
+                "ef=" + ef +
+                ", distanceFar=" + distanceFar +
+                ", distanceNear=" + distanceNear +
+                ", limit=" + getLimit() +
+                '}';
+    }
+} 

@@ -51,12 +51,10 @@ public class FilteringIndex extends IndexField {
     }
 
     public static class Builder {
-        private IndexType indexType;
         private String indexName;
         private List<FilteringIndexField> fields;
 
         private Builder() {
-            this.indexType = IndexType.FILTERING_INDEX;
             this.fields = new ArrayList<>();
         }
 

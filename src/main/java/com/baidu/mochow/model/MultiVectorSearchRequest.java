@@ -17,9 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.baidu.mochow.model.SearchRequest.VectorSearchRequestInterface;
-import com.baidu.mochow.model.SearchRequest.SingleVectorSearchRequestInterface;
-import com.baidu.mochow.model.SearchRequest.MultiVectorSearchFields;
+import com.baidu.mochow.model.entity.AdvancedOptions;
 import com.baidu.mochow.model.entity.GeneralParams;
 import com.baidu.mochow.model.entity.FusionRankPolicy;
 import com.baidu.mochow.model.enums.ReadConsistency;
@@ -41,6 +39,20 @@ public class MultiVectorSearchRequest implements VectorSearchRequestInterface {
     @Override
     public String requestType() {
         return "multiVectorSearch";
+    }
+
+    @Override
+    public int getLimit() {
+        return fields.limit;
+    }
+
+    public String getIteratedIds() {
+        return fields.iteratedIds;
+    }
+
+    public void setIteratedIds(String iteratedIds) {
+        fields.iteratedIds = iteratedIds;
+        fields.hasIteratedIds = true;
     }
 
     public static Builder builder(List<SingleVectorSearchRequestInterface> requests) {
@@ -85,6 +97,17 @@ public class MultiVectorSearchRequest implements VectorSearchRequestInterface {
         public Builder limit(int limit) {
             this.fields.hasLimit = true;
             this.fields.limit = limit;
+            return this;
+        }
+
+        public Builder advancedOptions(AdvancedOptions advancedOptions) {
+            this.fields.advancedOptions = advancedOptions;
+            return this;
+        }
+
+        public Builder iteratedIds(String iteratedIds) {
+            this.fields.iteratedIds = iteratedIds;
+            this.fields.hasIteratedIds = true;
             return this;
         }
 

@@ -17,26 +17,26 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.baidu.mochow.model.enums.InvertedIndexAnalyzer;
-import com.baidu.mochow.model.enums.InvertedIndexParseMode;
 
+/**
+ * IVF vector index parameters.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class InvertedIndexParams implements IndexParams {
-    private InvertedIndexAnalyzer analyzer;
-    private InvertedIndexParseMode parseMode;
-    private boolean caseSensitive = true;
+public class IVFParams implements IndexParams {
+    private int nlist;
 
-    public InvertedIndexParams(InvertedIndexAnalyzer analyzer, InvertedIndexParseMode parseMode) {
-        this.analyzer = analyzer;
-        this.parseMode = parseMode;
+    public IVFParams(int nlist) {
+        this.nlist = nlist;
     }
 
-    public InvertedIndexParams(InvertedIndexAnalyzer analyzer, InvertedIndexParseMode parseMode, boolean caseSensitive) {
-        this.analyzer = analyzer;
-        this.parseMode = parseMode;
-        this.caseSensitive = caseSensitive;
+    @Override
+    public String toString() {
+        return "IVFParams{" +
+                "nlist=" + nlist +
+                '}';
     }
 }
+

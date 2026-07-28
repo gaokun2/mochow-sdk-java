@@ -14,22 +14,22 @@
 package com.baidu.mochow.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class FLATSearchParams extends SearchParams {
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Float distanceNear;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Float distanceFar;
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class DiskANNSearchParams extends SearchParams {
+    private int w;
+    private int searchL;
 
-    private FLATSearchParams(Builder builder) {
+    private DiskANNSearchParams(Builder builder) {
         setLimit(builder.limit);
-        this.distanceNear = builder.distanceNear;
-        this.distanceFar = builder.distanceFar;
+        this.w = builder.w;
+        this.searchL = builder.searchL;
     }
 
     public static Builder builder() {
@@ -38,13 +38,13 @@ public class FLATSearchParams extends SearchParams {
 
     public static class Builder {
         private int limit;
-        private Float distanceNear;
-        private Float distanceFar;
+        private int w;
+        private int searchL;
 
         public Builder() {
-            this.limit = 50;
-            this.distanceNear = null;
-            this.distanceFar = null;
+            this.limit = 10;
+            this.w = 1;
+            this.searchL = 100;
         }
 
         public Builder limit(int limit) {
@@ -52,18 +52,19 @@ public class FLATSearchParams extends SearchParams {
             return this;
         }
 
-        public Builder distanceNear(float distanceNear) {
-            this.distanceNear = distanceNear;
+        public Builder w(int w) {
+            this.w = w;
             return this;
         }
 
-        public Builder distanceFar(float distanceFar) {
-            this.distanceFar = distanceFar;
+        public Builder searchL(int searchL) {
+            this.searchL = searchL;
             return this;
         }
 
-        public FLATSearchParams build() {
-            return new FLATSearchParams(this);
+        public DiskANNSearchParams build() {
+            return new DiskANNSearchParams(this);
         }
     }
 }
+

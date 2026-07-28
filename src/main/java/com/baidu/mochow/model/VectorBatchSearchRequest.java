@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2024 Baidu, Inc.
  *
@@ -18,8 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.baidu.mochow.model.SearchRequest.VectorSearchRequestInterface;
-import com.baidu.mochow.model.SearchRequest.VectorSearchFields;
+import com.baidu.mochow.model.entity.AdvancedOptions;
 import com.baidu.mochow.model.entity.DistanceRange;
 import com.baidu.mochow.model.entity.GeneralParams;
 import com.baidu.mochow.model.entity.Vector;
@@ -43,6 +41,11 @@ public class VectorBatchSearchRequest implements VectorSearchRequestInterface {
     @Override
     public String requestType() {
         return "batchSearch";
+    }
+
+    @Override
+    public int getLimit() {
+        return fields.limit;    
     }
 
     public static Builder builder(String vectorField, List<Vector> vectors) {
@@ -96,6 +99,11 @@ public class VectorBatchSearchRequest implements VectorSearchRequestInterface {
 
         public Builder config(VectorSearchConfig config) {
             this.fields.config = config;
+            return this;
+        }
+
+        public Builder advancedOptions(AdvancedOptions advancedOptions) {
+            this.fields.advancedOptions = advancedOptions;
             return this;
         }
 

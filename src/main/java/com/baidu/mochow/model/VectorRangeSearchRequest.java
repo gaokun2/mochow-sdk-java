@@ -17,8 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.baidu.mochow.model.SearchRequest.SingleVectorSearchRequestInterface;
-import com.baidu.mochow.model.SearchRequest.VectorSearchFields;
+import com.baidu.mochow.model.entity.AdvancedOptions;
 import com.baidu.mochow.model.entity.DistanceRange;
 import com.baidu.mochow.model.entity.GeneralParams;
 import com.baidu.mochow.model.entity.Vector;
@@ -42,6 +41,11 @@ public class VectorRangeSearchRequest implements SingleVectorSearchRequestInterf
     @Override
     public String requestType() {
         return "search";
+    }
+
+    @Override
+    public int getLimit() {
+        return fields.limit;    
     }
 
     public static Builder builder(String vectorField, Vector vector, DistanceRange range) {
@@ -91,6 +95,11 @@ public class VectorRangeSearchRequest implements SingleVectorSearchRequestInterf
 
         public Builder config(VectorSearchConfig config) {
             this.fields.config = config;
+            return this;
+        }
+
+        public Builder advancedOptions(AdvancedOptions advancedOptions) {
+            this.fields.advancedOptions = advancedOptions;
             return this;
         }
 

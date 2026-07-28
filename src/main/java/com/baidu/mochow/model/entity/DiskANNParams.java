@@ -14,29 +14,36 @@
 package com.baidu.mochow.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.baidu.mochow.model.enums.InvertedIndexAnalyzer;
-import com.baidu.mochow.model.enums.InvertedIndexParseMode;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class InvertedIndexParams implements IndexParams {
-    private InvertedIndexAnalyzer analyzer;
-    private InvertedIndexParseMode parseMode;
-    private boolean caseSensitive = true;
+public class DiskANNParams implements IndexParams {
+    @JsonProperty("NSQ")
+    private int nsq;
+    @JsonProperty("L")
+    private int l;
+    @JsonProperty("R")
+    private int r;
 
-    public InvertedIndexParams(InvertedIndexAnalyzer analyzer, InvertedIndexParseMode parseMode) {
-        this.analyzer = analyzer;
-        this.parseMode = parseMode;
+    public DiskANNParams() {}
+
+    public DiskANNParams(int nsq, int l, int r) {
+        this.nsq = nsq;
+        this.l = l;
+        this.r = r;
     }
 
-    public InvertedIndexParams(InvertedIndexAnalyzer analyzer, InvertedIndexParseMode parseMode, boolean caseSensitive) {
-        this.analyzer = analyzer;
-        this.parseMode = parseMode;
-        this.caseSensitive = caseSensitive;
+    @Override
+    public String toString() {
+        return "DiskANNParams{" +
+                "NSQ=" + nsq +
+                ", L=" + l +
+                ", R=" + r +
+                '}';
     }
 }
+

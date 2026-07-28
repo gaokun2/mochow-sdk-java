@@ -15,6 +15,9 @@ package com.baidu.mochow.model.entity;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Optional;
+
+import com.baidu.mochow.model.enums.FilterMode;
 
 /**
  * Optional configurable params for vector search.
@@ -33,59 +36,144 @@ import java.util.HashMap;
  *   </tr>
  *   <tr>
  *     <td>HNSWPQ</td>
- *     <td>ef, pruning</td>
+ *     <td>ef</td>
+ *   </tr>
+ *   <tr>
+ *     <td>HNSWSQ</td>
+ *     <td>ef</td>
  *   </tr>
  *   <tr>
  *     <td>PUCK</td>
  *     <td>coarseCount</td>
  *   </tr>
  *   <tr>
+ *     <td>DISKANN</td>
+ *     <td>w, searchL</td>
+ *   </tr>
+ *   <tr>
+ *     <td>IVF</td>
+ *     <td>nprobe</td>
+ *   </tr>
+ *   <tr>
+ *     <td>IVFSQ</td>
+ *     <td>nprobe</td>
+ *   </tr>
+ *   <tr>
  *     <td>FLAT</td>
  *     <td>(none)</td>
  *   </tr>
  * </table>
-*/
+ */
 public class VectorSearchConfig {
-    public VectorSearchConfig() {
+    private final Optional<Integer> ef;
+    private final Optional<Boolean> pruning;
+    private final Optional<Integer> coarseCount;
+    private final Optional<FilterMode> filterMode;
+    private final Optional<Float> postFilterAmplificationFactor;
+    private final Optional<Integer> w;
+    private final Optional<Integer> searchL;
+    private final Optional<Integer> nprobe;
+
+    private VectorSearchConfig(Builder builder) {
+        this.ef = builder.ef;
+        this.pruning = builder.pruning;
+        this.coarseCount = builder.coarseCount;
+        this.filterMode = builder.filterMode;
+        this.postFilterAmplificationFactor = builder.postFilterAmplificationFactor;
+        this.w = builder.w;
+        this.searchL = builder.searchL;
+        this.nprobe = builder.nprobe;
     }
 
-    public VectorSearchConfig setEf(int ef) {
-        this.ef = ef;
-        this.hasEf = true;
-        return this;
-    }
-
-    public VectorSearchConfig setPruning(boolean pruning) {
-        this.pruning = pruning;
-        this.hasPruning = true;
-        return this;
-    }
-
-    public VectorSearchConfig setCoarseCount(int coarseCount) {
-        this.coarseCount = coarseCount;
-        this.hasCoarseCount = true;
-        return this;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public Map<String, Object> toMap() {
         Map<String, Object> params = new HashMap<>();
 
-        if (this.hasEf) {
-            params.put("ef", this.ef);
-        }
-        if (this.hasPruning) {
-            params.put("pruning", this.pruning);
-        }
-        if (this.hasCoarseCount) {
-            params.put("searchCoarseCount", this.coarseCount);
-        }
+        ef.ifPresent(value -> params.put("ef", value));
+        pruning.ifPresent(value -> params.put("pruning", value));
+        coarseCount.ifPresent(value -> params.put("searchCoarseCount", value));
+        filterMode.ifPresent(value -> params.put("filterMode", value));
+        postFilterAmplificationFactor.ifPresent(value -> params.put("postFilterAmplificationFactor", value));
+        w.ifPresent(value -> params.put("W", value));
+        searchL.ifPresent(value -> params.put("searchL", value));
+        nprobe.ifPresent(value -> params.put("nprobe", value));
+
         return params;
     }
 
-    private int ef;
-    private boolean hasEf;
-    private boolean pruning;
-    private boolean hasPruning;
-    private int coarseCount;
-    private boolean hasCoarseCount;
+    /**
+     * Builder for VectorSearchConfig.
+     */
+    public static class Builder {
+        private Optional<Integer> ef = Optional.empty();
+        private Optional<Boolean> pruning = Optional.empty();
+        private Optional<Integer> coarseCount = Optional.empty();
+        private Optional<FilterMode> filterMode = Optional.empty();
+        private Optional<Float> postFilterAmplificationFactor = Optional.empty();
+        private Optional<Integer> w = Optional.empty();
+        private Optional<Integer> searchL = Optional.empty();
+        private Optional<Integer> nprobe = Optional.empty();
+
+        public Builder() {
+        }
+
+        public Builder ef(int ef) {
+            if (ef <= 0) {
+                throw new IllegalArgumentException("ef must be positive");
+            }
+            this.ef = Optional.of(ef);
+            return this;
+        }
+
+        public Builder pruning(boolean pruning) {
+            this.pruning = Optional.of(pruning);
+            return this;
+        }
+
+        public Builder coarseCount(int coarseCount) {
+            if (coarseCount <= 0) {
+                throw new IllegalArgumentException("coarseCount must be positive");
+            }
+            this.coarseCount = Optional.of(coarseCount);
+            return this;
+        }
+
+        public Builder filterMode(FilterMode filterMode) {
+            this.filterMode = Optional.of(filterMode);
+            return this;
+        }
+
+        public Builder postFilterAmplificationFactor(float postFilterAmplificationFactor) {
+            if (postFilterAmplificationFactor <= 1.0f) {
+                throw new IllegalArgumentException("postFilterAmplificationFactor must be greater than 1.0");
+            }
+            this.postFilterAmplificationFactor = Optional.of(postFilterAmplificationFactor);
+            return this;
+        }
+
+        public Builder w(int w) {
+            this.w = Optional.of(w);
+            return this;
+        }
+
+        public Builder searchL(int searchL) {
+            this.searchL = Optional.of(searchL);
+            return this;
+        }
+
+        public Builder nprobe(int nprobe) {
+            if (nprobe <= 0) {
+                throw new IllegalArgumentException("nprobe must be positive");
+            }
+            this.nprobe = Optional.of(nprobe);
+            return this;
+        }
+
+        public VectorSearchConfig build() {
+            return new VectorSearchConfig(this);
+        }
+    }
 }

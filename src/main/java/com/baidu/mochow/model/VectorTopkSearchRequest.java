@@ -17,8 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.baidu.mochow.model.SearchRequest.SingleVectorSearchRequestInterface;
-import com.baidu.mochow.model.SearchRequest.VectorSearchFields;
+import com.baidu.mochow.model.entity.AdvancedOptions;
 import com.baidu.mochow.model.entity.GeneralParams;
 import com.baidu.mochow.model.entity.Vector;
 import com.baidu.mochow.model.entity.VectorSearchConfig;
@@ -41,6 +40,20 @@ public class VectorTopkSearchRequest implements SingleVectorSearchRequestInterfa
     @Override
     public String requestType() {
         return "search";
+    }
+
+    @Override
+    public int getLimit() {
+        return fields.limit;
+    }
+
+    public String getIteratedIds() {
+        return fields.iteratedIds;
+    }
+
+    public void setIteratedIds(String iteratedIds) {
+        fields.iteratedIds = iteratedIds;
+        fields.hasIteratedIds = true;
     }
 
     public static Builder builder(String vectorField, Vector vector, int limit) {
@@ -82,6 +95,17 @@ public class VectorTopkSearchRequest implements SingleVectorSearchRequestInterfa
 
         public Builder config(VectorSearchConfig config) {
             this.fields.config = config;
+            return this;
+        }
+
+        public Builder advancedOptions(AdvancedOptions advancedOptions) {
+            this.fields.advancedOptions = advancedOptions;
+            return this;
+        }
+
+        public Builder iteratedIds(String iteratedIds) {
+            this.fields.iteratedIds = iteratedIds;
+            this.fields.hasIteratedIds = true;
             return this;
         }
 
