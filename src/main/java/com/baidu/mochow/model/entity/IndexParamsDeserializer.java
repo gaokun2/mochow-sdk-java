@@ -64,10 +64,18 @@ public class IndexParamsDeserializer extends JsonDeserializer<IndexParams> {
                     case SPARSE_OPTIMIZED_FLAT:
                         params = null;
                         break;
+                    case PERSISTENT_BITMAP:
+                        params = null;
+                        break;
+                    case PERSISTENT_AGGREGATED_BITMAP:
+                        params = JsonUtils.fromJsonString(paramStr, PersistentAggregatedBitmapParams.class);
+                        break;
                 }
             } else if (IndexType.INVERTED_INDEX.equals(indexField.getIndexType())) {
                 // inverted index
                 params = JsonUtils.fromJsonString(paramStr, InvertedIndexParams.class);
+            } else if (IndexType.PERSISTENT_AGGREGATED_BITMAP.equals(indexField.getIndexType())) {
+                params = JsonUtils.fromJsonString(paramStr, PersistentAggregatedBitmapParams.class);
             }
             return params;
         }

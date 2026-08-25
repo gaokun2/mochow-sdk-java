@@ -13,6 +13,8 @@
 
 package com.baidu.mochow.model.entity;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -41,6 +43,7 @@ public class IndexField {
     private MetricType metricType;
     @JsonDeserialize(using=IndexParamsDeserializer.class)
     private IndexParams params;
+    private List<Integer> truncationDimension;
 
     // auto build
     private boolean autoBuild = false;
