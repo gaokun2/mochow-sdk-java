@@ -50,6 +50,7 @@ import com.baidu.mochow.model.entity.HNSWPQParams;
 import com.baidu.mochow.model.entity.HNSWSQParams;
 import com.baidu.mochow.model.entity.HNSWRABITQParams;
 import com.baidu.mochow.model.entity.DiskANNParams;
+import com.baidu.mochow.model.entity.DiskANNRaBitQParams;
 import com.baidu.mochow.model.entity.IVFParams;
 import com.baidu.mochow.model.entity.IVFPQParams;
 import com.baidu.mochow.model.entity.IVFSQParams;
@@ -286,6 +287,15 @@ public class MochowExample {
                         .params(new DiskANNParams(4,100, 64))
                         .metricType(MetricType.L2)
                         .autoBuild(false).build());
+        } else if (IndexType.DISKANNRABITQ.equals(vectorIndexType)) {
+            schemaBuilder.addIndex(
+                VectorIndex.builder()
+                        .indexName("vector_idx")
+                        .indexType(vectorIndexType)
+                        .fieldName("vector")
+                        .params(new DiskANNRaBitQParams(64, 100))
+                        .metricType(MetricType.L2)
+                        .autoBuild(false).build());
         } else if (IndexType.IVF.equals(vectorIndexType)) {
             schemaBuilder.addIndex(
                 VectorIndex.builder()
@@ -504,6 +514,8 @@ public class MochowExample {
         } else if (IndexType.HNSWRABITQ.equals(this.vectorIndexType)) {
             searchRequestBuilder = searchRequestBuilder.config(VectorSearchConfig.builder().ef(200).build());
         } else if (IndexType.DISKANN.equals(this.vectorIndexType)) {
+            searchRequestBuilder = searchRequestBuilder.config(VectorSearchConfig.builder().w(1).searchL(100).build());
+        } else if (IndexType.DISKANNRABITQ.equals(this.vectorIndexType)) {
             searchRequestBuilder = searchRequestBuilder.config(VectorSearchConfig.builder().w(1).searchL(100).build());
         } else if (IndexType.IVF.equals(this.vectorIndexType) || IndexType.IVFPQ.equals(this.vectorIndexType)
                 || IndexType.IVFSQ.equals(this.vectorIndexType)) {

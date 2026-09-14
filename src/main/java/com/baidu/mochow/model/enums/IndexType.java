@@ -23,6 +23,7 @@ public enum IndexType {
     HNSWRABITQ("HNSWRABITQ"),
     PUCK("PUCK"),
     DISKANN("DISKANN"),
+    DISKANNRABITQ("DISKANNRABITQ"),
     IVF("IVF"),
     IVFPQ("IVFPQ"),
     IVFSQ("IVFSQ"),

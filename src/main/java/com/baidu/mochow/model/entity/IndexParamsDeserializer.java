@@ -52,6 +52,9 @@ public class IndexParamsDeserializer extends JsonDeserializer<IndexParams> {
                     case DISKANN:
                         params = JsonUtils.fromJsonString(paramStr, DiskANNParams.class);
                         break;
+                    case DISKANNRABITQ:
+                        params = JsonUtils.fromJsonString(paramStr, DiskANNRaBitQParams.class);
+                        break;
                     case IVF:
                         params = JsonUtils.fromJsonString(paramStr, IVFParams.class);
                         break;

@@ -55,6 +55,10 @@ import com.baidu.mochow.model.enums.FilterMode;
  *     <td>w, searchL</td>
  *   </tr>
  *   <tr>
+ *     <td>DISKANNRABITQ</td>
+ *     <td>w, searchL</td>
+ *   </tr>
+ *   <tr>
  *     <td>IVF</td>
  *     <td>nprobe</td>
  *   </tr>

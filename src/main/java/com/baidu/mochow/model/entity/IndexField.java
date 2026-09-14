@@ -57,6 +57,7 @@ public class IndexField {
                 || IndexType.HNSWRABITQ.equals(this.indexType)
                 || IndexType.PUCK.equals(this.indexType)
                 || IndexType.DISKANN.equals(this.indexType)
+                || IndexType.DISKANNRABITQ.equals(this.indexType)
                 || IndexType.IVF.equals(this.indexType)
                 || IndexType.IVFPQ.equals(this.indexType)
                 || IndexType.IVFSQ.equals(this.indexType)
